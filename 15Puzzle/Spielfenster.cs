@@ -61,103 +61,153 @@ namespace _15Puzzle
             }
             this.ResumeLayout(false);
         }
-        /*
-        private void Gewonnen()
+
+        public void ErfolgPruefen()
         {
-            int numPlaettchen = plaetze.GetLength(0) * plaetze.GetLength(1);
-            int currentPlaettchen = 1;
-
-            for (int i = 0; i < plaetze.GetLength(0); i++)
+            bool ok = true;
+            for (int i = 0; i < 4; ++i)
             {
-                for (int j = 0; j < plaetze.GetLength(1); j++)
+                for (int j = 0; j < 4; j++)
                 {
-                    if (plaetze[i, j]?.Text != currentPlaettchen.ToString())
+                    if (i == 3 && j == 3)
                     {
-                        continue;
+                        if (plaetze[i, j] != null)
+                        {
+                            //kein Loch woanders als in 3,3: falsch
+                            return;
+                        }
                     }
-
-                    currentPlaettchen++;
+                    else
+                    {
+                        if (plaetze[i, j] == null)
+                        {
+                            //Loch woanders als in 3,3: falsch
+                            return;
+                        }
+                        string erwarteterText = "" + (1 + 4 * j + i);
+                        if (j == 3 && i == 2)   // kann auch vertauscht sein: 15 oder 14 sind OK
+                        {
+                            string andererText = "" + (4 * j + i);
+                            if (plaetze[i, j].Text != erwarteterText && plaetze[i, j].Text != andererText)
+                            {
+                                //falscher Text
+                                return;
+                            }
+                        }
+                        else if(j == 3 && i == 1) // kann auch vertauscht sein: 14 oder 15 sind OK
+                        {
+                            string andererText = "" + (2 + 4 * j + i);
+                            if(plaetze[i, j].Text != erwarteterText && plaetze[i, j].Text != andererText)
+                            {
+                                return;
+                            }
+                        }
+                        else if (plaetze[i, j].Text != erwarteterText)
+                        {
+                            //falscher Text
+                            return;
+                        }
+                    }
                 }
             }
-            MessageBox.Show("Gewonnen!");
+        }
             /*
-            if(plaetze )
+            private void Gewonnen()
             {
-                
+                int numPlaettchen = plaetze.GetLength(0) * plaetze.GetLength(1);
+                int currentPlaettchen = 1;
+
+                for (int i = 0; i < plaetze.GetLength(0); i++)
+                {
+                    for (int j = 0; j < plaetze.GetLength(1); j++)
+                    {
+                        if (plaetze[i, j]?.Text != currentPlaettchen.ToString())
+                        {
+                            continue;
+                        }
+
+                        currentPlaettchen++;
+                    }
+                }
+                MessageBox.Show("Gewonnen!");
+                /*
+                if(plaetze )
+                {
+
+                }
+                else
+                {
+
+                }
+                for (int g = 1; g < 16; g++)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        for (int j = 0; j < 4; j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                plaetze[i, j] = null;
+                                continue;
+                            }
+                            //if else (g == 15 &&  ) {
+
+                            //}
+                        }
+                    }
+                }
+
+                do
+                {
+
+                } while ();
+                */
+        /*
+        private void PlaettchenBewegen(Plaettchen b, int neuI, int neuJ)
+        {
+            /*
+            // Alte Position enthält jetzt das Loch
+            plaetze[b.I, b.J] = null;
+            // Plättchen graphisch umplatzieren
+            b.Location = new System.Drawing.Point(128 + 72 * neuI, 32 + 72 * neuJ);
+            // ihm sagen, wo er jetzt ist
+            b.I = neuI;
+            b.J = neuJ;
+            // Da, wo das Loch war, ist jetzt dieses Plättchen
+            plaetze[neuI, neuJ] = b;
+
+        }
+
+        public void Bewegen(object sender, EventArgs e)
+        {
+            Plaettchen b = sender as Plaettchen;
+            if (b.I > 0 && plaetze[b.I - 1, b.J] == null)
+            {
+                PlaettchenBewegen(b, b.I - 1, b.J);
+            }
+            else if (b.I + 1 < 4 && plaetze[b.I + 1, b.J] == null)
+            {
+                PlaettchenBewegen(b, b.I + 1, b.J);
+            }
+            else if (b.J > 0 && plaetze[b.I, b.J - 1] == null)
+            {
+                PlaettchenBewegen(b, b.I, b.J - 1);
+            }
+            else if (b.J + 1 < 4 && plaetze[b.I, b.J + 1] == null)
+            {
+                PlaettchenBewegen(b, b.I, b.J + 1);
             }
             else
             {
-
+                Gewonnen();
             }
-            for (int g = 1; g < 16; g++)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (i == 0 && j == 0)
-                        {
-                            plaetze[i, j] = null;
-                            continue;
-                        }
-                        //if else (g == 15 &&  ) {
-
-                        //}
-                    }
-                }
-            }
-
-            do
-            {
-
-            } while ();
-            */
+            // Dient zu Überprüfung - Gibt das Array der Felder aus
+            //MessageBox.Show("Geklickt: " + b.Text + "i, j =" + b.I + "," + b.J);
+        }
+        private void buttonPlaettchen_Click(object sender, EventArgs e)
+        {
+            Bewegen(sender, e);
+        }
+        */
     }
-    /*
-    private void PlaettchenBewegen(Plaettchen b, int neuI, int neuJ)
-    {
-        /*
-        // Alte Position enthält jetzt das Loch
-        plaetze[b.I, b.J] = null;
-        // Plättchen graphisch umplatzieren
-        b.Location = new System.Drawing.Point(128 + 72 * neuI, 32 + 72 * neuJ);
-        // ihm sagen, wo er jetzt ist
-        b.I = neuI;
-        b.J = neuJ;
-        // Da, wo das Loch war, ist jetzt dieses Plättchen
-        plaetze[neuI, neuJ] = b;
-
-    }
-
-    public void Bewegen(object sender, EventArgs e)
-    {
-        Plaettchen b = sender as Plaettchen;
-        if (b.I > 0 && plaetze[b.I - 1, b.J] == null)
-        {
-            PlaettchenBewegen(b, b.I - 1, b.J);
-        }
-        else if (b.I + 1 < 4 && plaetze[b.I + 1, b.J] == null)
-        {
-            PlaettchenBewegen(b, b.I + 1, b.J);
-        }
-        else if (b.J > 0 && plaetze[b.I, b.J - 1] == null)
-        {
-            PlaettchenBewegen(b, b.I, b.J - 1);
-        }
-        else if (b.J + 1 < 4 && plaetze[b.I, b.J + 1] == null)
-        {
-            PlaettchenBewegen(b, b.I, b.J + 1);
-        }
-        else
-        {
-            Gewonnen();
-        }
-        // Dient zu Überprüfung - Gibt das Array der Felder aus
-        //MessageBox.Show("Geklickt: " + b.Text + "i, j =" + b.I + "," + b.J);
-    }
-    private void buttonPlaettchen_Click(object sender, EventArgs e)
-    {
-        Bewegen(sender, e);
-    }
-    */
 }

@@ -64,6 +64,8 @@ namespace _15Puzzle
             J = neuJ;
             // Da, wo das Loch war, ist jetzt dieses Plättchen
             Fenster.plaetze[neuI, neuJ] = this;
+
+            Fenster.ErfolgPruefen();
         }
     }
 }
